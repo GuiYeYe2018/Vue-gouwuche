@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+  <style>
+      table{
+          border: 1px solid #e9e9e9;
+          border-collapse: collapse;
+          border-spacing: 0;
+      }
+      th,td{
+          padding: 8px 16px;
+          border: 1px solid #e9e9e9;
+          text-align: left;
+      }
+      th{
+          background-color: #f7f7f7;
+          color: #5c6b77;
+          font-weight: 600;
+      }
+  </style>
+</head>
+<body>
+     <div id="app">
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th>书名</th>
+                <th>出版日期</th>
+                <th>价格</th>
+                <th>购买数量</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="(item,index) in books">
+                <td >{{item.id}}</td>
+                <td >{{item.name}}</td>
+                <td >{{item.data}}</td>
+                <td >{{item.jiage |showjiage}}</td>
+                <td><button @click="upup(index)">+</button>{{item.count}}<button @click="downdown(index)" v-bind:disabled="item.count == 1">-</button></td>
+                <td><button @click="remove(index)">移除</button></td>
+            </tr>
+        </tbody>
+    </table>
+    <h2>总价格：{{totalPrice}}</h2>
+        
+     </div>
+
+
+
+
+
+    <script src="../tushuguan/js/vue.js"></script>
+    <script>
+        const app = new Vue({
+            el:'#app',
+            data:{
+                books:[
+                    {id:1,
+                    name:'《算法导论》',
+                    data:'2206-6-6',
+                    jiage:666.00,
+                    count:1},
+                    {id:2,
+                    name:'《算法导论2》',
+                    data:'2206-6-6',
+                    jiage:666.00,
+                    count:1},
+                    {id:3,
+                    name:'《算法导论3》',
+                    data:'2206-6-6',
+                    jiage:666.00,
+                    count:1},
+                    {id:4,
+                    name:'《算法导论4》',
+                    data:'2206-6-6',
+                    jiage:666.00,
+                    count:1},
+                ],
+                dis:false
+            },
+            methods:{
+                upup(index){
+                   this.books[index].count++
+                },
+                downdown(index){
+                    this.books[index].count--;
+
+                },
+                remove(index){
+                    this.books.splice(index,1)
+                },
+            },
+            filters:{
+                showjiage(jiage){
+                    return '$'+ jiage.toFixed(2);
+                }
+            },
+            computed:{
+                totalPrice(){
+                    let zongjiage = 0
+                    for(let i =0;i<this.books.length;i++){
+                        zongjiage += this.books[i].jiage*this.books[i].count 
+                    }
+                return zongjiage;
+                }
+            }
+
+
+        })
+    </script>
+    
+</body>
+</html>
